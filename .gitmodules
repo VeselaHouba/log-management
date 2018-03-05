@@ -1,0 +1,4 @@
+[submodule "libci"]
+	path = libci
+	url = ../../greep/libci.git
+	branch = master

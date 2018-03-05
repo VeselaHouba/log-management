@@ -13,13 +13,13 @@
   template:
     src: etc/elasticsearch/elasticsearch.yml.j2
     dest: /etc/elasticsearch/elasticsearch.yml
-    backup: yes
+    backup: true
   notify: restart elasticsearch
   become: true
 
 - name: Make sure logging dir is present
   file:
-    path:  "{{ lm_es_logdir }}"
+    path: "{{ lm_es_logdir }}"
     group: elasticsearch
     owner: elasticsearch
     state: directory
@@ -28,7 +28,7 @@
 
 - name: Make sure data dir is present
   file:
-    path:  "{{ lm_es_datadir }}"
+    path: "{{ lm_es_datadir }}"
     group: elasticsearch
     owner: elasticsearch
     state: directory
@@ -39,7 +39,7 @@
   service:
     name: elasticsearch
     state: started
-    enabled: yes
+    enabled: true
   become: true
 
 - name: make sure elasticsearch is running

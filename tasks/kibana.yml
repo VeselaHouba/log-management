@@ -16,5 +16,5 @@
   service:
     name: kibana
     state: started
-    enabled: yes
+    enabled: true
   become: true

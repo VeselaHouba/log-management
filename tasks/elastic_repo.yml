@@ -11,5 +11,5 @@
     description: "Elasticsearch repository for {{ lm_es_major_version }}.x packages"
     baseurl: "{{ lm_es_repo_url }}"
     gpgkey: "{{ lm_es_repo_gpg_key }}"
-    gpgcheck: yes
+    gpgcheck: true
   become: true
