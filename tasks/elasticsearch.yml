@@ -1,0 +1,50 @@
+---
+- name: install java
+  yum:
+    name: "java-{{ lm_es_java_version }}"
+  become: true
+
+- name: install elasticsearch
+  yum:
+    name: elasticsearch
+  become: true
+
+- name: configure elasticsearch
+  template:
+    src: etc/elasticsearch/elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+    backup: yes
+  notify: restart elasticsearch
+  become: true
+
+- name: Make sure logging dir is present
+  file:
+    path:  "{{ lm_es_logdir }}"
+    group: elasticsearch
+    owner: elasticsearch
+    state: directory
+    mode: 0755
+  become: true
+
+- name: Make sure data dir is present
+  file:
+    path:  "{{ lm_es_datadir }}"
+    group: elasticsearch
+    owner: elasticsearch
+    state: directory
+    mode: 0755
+  become: true
+
+- name: start elasticsearch
+  service:
+    name: elasticsearch
+    state: started
+    enabled: yes
+  become: true
+
+- name: make sure elasticsearch is running
+  wait_for:
+    host: "{{ lm_es_network_host }}"
+    port: "{{ lm_es_http_port }}"
+    delay: 3
+    timeout: 300

@@ -1,0 +1,20 @@
+---
+- name: install kibana
+  yum:
+    name: kibana
+    state: installed
+  become: true
+
+- name: configure kibana
+  template:
+    src: etc/kibana/kibana.yml.j2
+    dest: /etc/kibana/kibana.yml
+  notify: restart kibana
+  become: true
+
+- name: start kibana
+  service:
+    name: kibana
+    state: started
+    enabled: yes
+  become: true

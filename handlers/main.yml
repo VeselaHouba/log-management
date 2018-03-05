@@ -1,0 +1,18 @@
+---
+- name: restart logstash
+  service:
+    name: logstash
+    state: restarted
+  become: true
+
+- name: restart kibana
+  service:
+    name: kibana
+    state: restarted
+  become: true
+
+- name: restart elasticsearch
+  service:
+    name: elasticsearch
+    state: restarted
+  become: true

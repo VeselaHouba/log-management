@@ -1,0 +1,36 @@
+---
+- name: install java
+  yum:
+    name: "java-{{ lm_es_java_version }}"
+  become: true
+
+- name: install logstash
+  yum:
+    name: logstash
+    state: installed
+  notify: restart logstash
+  become: true
+
+- name: Copy config files
+  copy:
+    src: etc/logstash/conf.d/
+    dest: /etc/logstash/conf.d/
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart logstash
+  become: true
+
+- name: Copy config templates
+  template:
+    src: etc/logstash/conf.d/60_output_elasticsearch.conf.j2
+    dest: /etc/logstash/conf.d/60_output_elasticsearch.conf
+  notify: restart logstash
+  become: true
+
+- name: start logstash
+  service:
+    name: logstash
+    state: started
+    enabled: yes
+  become: true
