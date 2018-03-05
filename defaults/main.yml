@@ -32,9 +32,9 @@ lm_kibana_hosts:
 
 # What software from Elastic repo will be installed on host
 lm_server_roles: []
-  # - logstash
-  # - kibana
-  # - elasticsearch
-  # - filebeat
-  # - auditbeat
-  # - docker_rsyslog
+#  - logstash
+#  - kibana
+#  - elasticsearch
+#  - filebeat
+#  - auditbeat
+#  - docker_rsyslog

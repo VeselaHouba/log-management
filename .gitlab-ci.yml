@@ -1,0 +1,27 @@
+---
+stages:
+    - lint
+
+before_script:
+    - pwd
+    - git submodule sync
+    - git submodule update --init
+    - docker --version
+
+conventions:
+    stage: lint
+    script: ci/conventions.sh
+    only:
+        - branches
+
+shellcheck:
+    stage: lint
+    script: ci/shellcheck.sh
+    only:
+        - branches
+
+ansible-lint:
+    stage: lint
+    script: ci/ansible-lint.sh
+    only:
+        - branches
