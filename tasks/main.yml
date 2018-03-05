@@ -1,4 +1,7 @@
 ---
+- name: Install Elastic.co repository
+  include_tasks: elastic_repo.yml
+
 - name: Run playbook by role name
   include_tasks: "{{ item }}.yml"
   with_items: "{{ lm_server_roles }}"

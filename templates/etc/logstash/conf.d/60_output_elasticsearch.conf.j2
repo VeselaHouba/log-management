@@ -1,5 +1,5 @@
 output {
   elasticsearch {
-    hosts => [{% for host in lm_elastic_hosts %}"{{ host }}:{{ lm_es_http_port }}",{% endfor %}]
+    hosts => [{% for host in lm_elastic_hosts %}"{{ host }}:{{ lm_es_http_port }}"{% if not loop.last %}, {% endif %}{% endfor %}]
   }
 }
