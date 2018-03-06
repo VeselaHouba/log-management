@@ -19,6 +19,8 @@ http.cors.allow-headers: X-Requested-With,X-Auth-Token,Content-Type, Content-Len
 path.data: {{ lm_es_datadir }}
 path.logs: {{ lm_es_logdir }}
 
+{% if lm_dev_mode %}
 # remove this after testing
-#network.bind_host: {{ hostvars[inventory_hostname]['ansible_enp0s8']['ipv4']['address'] }}
-#network.publish_host:  {{ hostvars[inventory_hostname]['ansible_enp0s8']['ipv4']['address'] }}
+network.bind_host: {{ hostvars[inventory_hostname]['ansible_enp0s8']['ipv4']['address'] }}
+network.publish_host:  {{ hostvars[inventory_hostname]['ansible_enp0s8']['ipv4']['address'] }}
+{% endif %}

@@ -25,6 +25,10 @@ lm_kibana_hostname: "{{ ansible_fqdn }}"
 lm_kibana_es_host: "{{ lm_elastic_hosts[0] }}"
 lm_kibana_es_port: "{{ lm_es_http_port }}"
 
+# auditbeat related config
+lm_auditbeat_init: false
+
+
 # Hosts definitions: Values will be filled into config files
 # Must be resovlable (IP / Host)
 lm_elastic_hosts:
@@ -36,9 +40,12 @@ lm_kibana_hosts:
 
 # What software from Elastic repo will be installed on host
 lm_server_roles: []
-#  - logstash
-#  - kibana
 #  - elasticsearch
-#  - filebeat
+#  - kibana
 #  - auditbeat
+#  - logstash
+#  - filebeat
 #  - docker_rsyslog
+
+# this mode enables binding to specific iface
+lm_dev_mode: false
