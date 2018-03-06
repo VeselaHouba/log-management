@@ -1,0 +1,37 @@
+---
+- name: Install auditbeat
+  yum:
+    name: auditbeat
+    state: installed
+  become: true
+
+- name: configure auditbeat
+  template:
+    src: etc/auditbeat/auditbeat.yml.j2
+    dest: /etc/auditbeat/auditbeat.yml
+  notify: restart auditbeat
+  become: true
+
+- name: Disable OS auditd
+  service:
+    name: auditd
+    enabled: false
+  become: true
+
+# there bug in ansible, it's not working even with "use: service"
+# https://goo.gl/6UnfmE
+- name: Stop OS auditd
+  command: service auditd stop
+  args:
+    warn: false
+  notify: restart auditbeat
+  register: lm_service_result
+  changed_when: not lm_service_result.stdout|search('FAILED')
+  become: true
+
+- name: Start auditbeat
+  service:
+    name: auditbeat
+    state: started
+    enabled: true
+  become: true

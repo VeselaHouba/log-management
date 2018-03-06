@@ -1,3 +1,7 @@
 - kibana proxy
 - Readme Description
 - more roles
+
+rsyslog
+*.*  action(type="omfwd" target=127.0.0.1" port="5000" protocol="tcp"
+        action.resumeRetryCount="100" queue.type="linkedList" queue.size="10000"
