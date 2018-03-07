@@ -5,7 +5,7 @@
     key: "{{ lm_es_repo_gpg_key }}"
   become: true
 
-- name: Install logstash repo
+- name: Install Elastic.co repo
   yum_repository:
     name: "elasticsearch-{{ lm_es_major_version }}.x"
     description: "Elasticsearch repository for {{ lm_es_major_version }}.x packages"
