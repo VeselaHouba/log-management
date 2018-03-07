@@ -30,29 +30,29 @@
   become: true
 
 - block:
-  - name: Make sure elasticsearch is running
-    wait_for:
-      host: "{{ lm_elastic_hosts[0] }}"
-      port: "{{ lm_es_http_port }}"
-      delay: 3
-      timeout: 120
+    - name: Make sure elasticsearch is running
+      wait_for:
+        host: "{{ lm_elastic_hosts[0] }}"
+        port: "{{ lm_es_http_port }}"
+        delay: 3
+        timeout: 120
 
-  # check that kibana is running before setting up auditbeat
-  # it's needed for uploading dashboards to elastic
-  - name: Make sure kibana is running
-    wait_for:
-      host: "{{ lm_kibana_hosts[0] }}"
-      port: "{{ lm_kibana_port }}"
-      delay: 3
-      timeout: 120
+    # check that kibana is running before setting up auditbeat
+    # it's needed for uploading dashboards to elastic
+    - name: Make sure kibana is running
+      wait_for:
+        host: "{{ lm_kibana_hosts[0] }}"
+        port: "{{ lm_kibana_port }}"
+        delay: 3
+        timeout: 120
 
-  - name: Auditbeat load index templates
-    command: "auditbeat setup --template -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=[\"{{ lm_elastic_hosts[0] }}:{{ lm_es_http_port }}\"]'"
-    become: true
+    - name: Auditbeat load index templates
+      command: "auditbeat setup --template -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=[\"{{ lm_elastic_hosts[0] }}:{{ lm_es_http_port }}\"]'"
+      become: true
 
-  - name: Auditbeat load dashboards
-    command: "auditbeat setup --dashboards"
-    become: true
+    - name: Auditbeat load dashboards
+      command: "auditbeat setup --dashboards"
+      become: true
   # endblock
   when: lm_auditbeat_init
 
