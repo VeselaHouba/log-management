@@ -26,7 +26,7 @@
     warn: false
   notify: restart auditbeat
   register: lm_service_result
-  changed_when: not lm_service_result.stdout|search('FAILED')
+  changed_when: lm_service_result.stdout|search('OK')
   become: true
 
 - block:
@@ -47,7 +47,8 @@
         timeout: 120
 
     - name: Auditbeat load index templates
-      command: "auditbeat setup --template -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=[\"{{ lm_elastic_hosts[0] }}:{{ lm_es_http_port }}\"]'"
+      command: "auditbeat setup --template -E output.logstash.enabled=false \
+        -E 'output.elasticsearch.hosts=[\"{{ lm_elastic_hosts[0] }}:{{ lm_es_http_port }}\"]'"
       become: true
 
     - name: Auditbeat load dashboards

@@ -16,7 +16,7 @@ lm_es_datadir: /var/lib/elasticsearch
 
 # logstash related config
 lm_logstash_syslog_port: 5000
-lm_logstash_beats_port: 5044
+lm_logstash_beats_port: 24224
 
 # kibana related config
 lm_kibana_port: 5601
