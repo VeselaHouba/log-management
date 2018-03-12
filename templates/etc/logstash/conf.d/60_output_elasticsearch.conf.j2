@@ -1,5 +1,12 @@
 output {
-  elasticsearch {
-    hosts => [{% for host in lm_elastic_hosts %}"{{ host }}:{{ lm_es_http_port }}",{% endfor %}]
+  if [@metadata][beat] == "auditbeat"{
+    elasticsearch {
+      hosts => [{% for host in lm_elastic_hosts %}"{{ host }}:{{ lm_es_http_port }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+      index => "%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.dd}"
+    }
+  } else {
+    elasticsearch {
+      hosts => [{% for host in lm_elastic_hosts %}"{{ host }}:{{ lm_es_http_port }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+    }
   }
 }

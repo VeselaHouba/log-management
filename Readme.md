@@ -14,11 +14,11 @@ Role Variables
 Defines what SW from Elastic.co will be installed on server
 ```
 lm_server_roles:
-  - logstash
   - kibana
   - elasticsearch
+  - auditbeat
+  - logstash
   # - filebeat - Not avaliable yet
-  # - auditbeat - Not avaliable yet
   # - docker_rsyslog - Not avaliable yet
   ```
 default:

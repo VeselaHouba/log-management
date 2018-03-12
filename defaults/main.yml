@@ -14,12 +14,20 @@ lm_es_min_cluster_nodes: 1
 lm_es_logdir: /var/log/elasticsearch
 lm_es_datadir: /var/lib/elasticsearch
 
+# logstash related config
+lm_logstash_syslog_port: 5000
+lm_logstash_beats_port: 24224
+
 # kibana related config
 lm_kibana_port: 5601
-lm_kibana_host: localhost
+lm_kibana_host: 0.0.0.0
 lm_kibana_hostname: "{{ ansible_fqdn }}"
 lm_kibana_es_host: "{{ lm_elastic_hosts[0] }}"
 lm_kibana_es_port: "{{ lm_es_http_port }}"
+
+# auditbeat related config
+lm_auditbeat_init: false
+
 
 # Hosts definitions: Values will be filled into config files
 # Must be resovlable (IP / Host)
@@ -32,9 +40,12 @@ lm_kibana_hosts:
 
 # What software from Elastic repo will be installed on host
 lm_server_roles: []
-#  - logstash
-#  - kibana
 #  - elasticsearch
-#  - filebeat
+#  - kibana
 #  - auditbeat
+#  - logstash
+#  - filebeat
 #  - docker_rsyslog
+
+# this mode enables binding to specific iface
+lm_dev_mode: false

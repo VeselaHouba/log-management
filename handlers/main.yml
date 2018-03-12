@@ -16,3 +16,9 @@
     name: elasticsearch
     state: restarted
   become: true
+
+- name: restart auditbeat
+  service:
+    name: auditbeat
+    state: restarted
+  become: true

@@ -23,10 +23,15 @@
 
 - name: Copy config templates
   template:
-    src: etc/logstash/conf.d/60_output_elasticsearch.conf.j2
-    dest: /etc/logstash/conf.d/60_output_elasticsearch.conf
+    src: "{{ template }}"
+    dest: /etc/logstash/conf.d/{{ template | basename | regex_replace('\.j2','') }}
+  with_fileglob:
+    - ../templates/etc/logstash/conf.d/*.j2
+  loop_control:
+    loop_var: template
   notify: restart logstash
   become: true
+
 
 - name: start logstash
   service:

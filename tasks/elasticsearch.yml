@@ -42,9 +42,9 @@
     enabled: true
   become: true
 
-- name: make sure elasticsearch is running
-  wait_for:
-    host: "{{ lm_es_network_host }}"
-    port: "{{ lm_es_http_port }}"
-    delay: 3
-    timeout: 300
+# - name: make sure elasticsearch is running
+#   wait_for:
+#     host: "{{ lm_es_network_host }}"
+#     port: "{{ lm_es_http_port }}"
+#     delay: 3
+#     timeout: 300
