@@ -1,0 +1,14 @@
+---
+- name: rsyslog | disable td-agent
+  service:
+    name: td-agent
+    state: stopped
+    enabled: false
+  become: true
+
+- name: rsyslog | set forwarding to log collector
+  template:
+    src: etc/rsyslog.d/log-management.conf.j2
+    dest: /etc/rsyslog.d/log-management.conf
+  notify: restart rsyslog
+  become: true

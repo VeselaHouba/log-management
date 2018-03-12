@@ -22,3 +22,9 @@
     name: auditbeat
     state: restarted
   become: true
+
+- name: restart rsyslog
+  service:
+    name: rsyslog
+    state: restarted
+  become: true
