@@ -46,7 +46,7 @@ lm_server_roles: []
 #  - auditbeat
 #  - logstash
 #  - filebeat
-#  - docker_rsyslog
+#  - rsyslog
 
 # this mode enables binding to specific iface
 lm_dev_mode: false
