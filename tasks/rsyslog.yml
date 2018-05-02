@@ -1,4 +1,10 @@
 ---
+- name: Make sure rsyslog is installed
+  yum:
+    name: rsyslog
+    state: present
+  become: true
+
 - name: Disable td-agent
   service:
     name: td-agent

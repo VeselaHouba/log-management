@@ -1,6 +1,7 @@
 ---
 stages:
     - lint
+    - tests
 
 before_script:
     - pwd
@@ -23,5 +24,11 @@ shellcheck:
 ansible-lint:
     stage: lint
     script: ci/ansible-lint.sh
+    only:
+        - branches
+
+molecule:
+    stage: tests
+    script: ci/molecule.sh
     only:
         - branches
