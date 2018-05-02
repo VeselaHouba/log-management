@@ -1,9 +1,5 @@
 extends: default
 
-ignore: |
-  venv/
-  .gitlab-ci.yml
-
 rules:
   braces:
     max-spaces-inside: 1
