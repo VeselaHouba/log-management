@@ -6,7 +6,7 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: ansible-test
+  - name: ansible-log-management
     image: registry.betsys.com/org/centos7-systemd
     privileged: true
     command: /usr/sbin/init
@@ -18,7 +18,7 @@ provisioner:
     name: ansible-lint
   inventory:
     host_vars:
-      ansible-test:
+      ansible-log-management:
         lm_server_roles:
           - elasticsearch
           - kibana

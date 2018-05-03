@@ -21,6 +21,16 @@
   notify: restart logstash
   become: true
 
+- name: Copy grok patterns
+  copy:
+    src: etc/logstash/patterns/
+    dest: /etc/logstash/patterns/
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart logstash
+  become: true
+
 - name: Copy config templates
   template:
     src: "{{ template }}"
