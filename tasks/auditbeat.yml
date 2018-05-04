@@ -23,7 +23,7 @@
         name: auditd
         enabled: false
       become: true
-      when: ('auditd.service' is lm_auditd_check.stdout)
+      when: ('auditd.service' in lm_auditd_check.stdout)
 
     # there bug in ansible, it's not working even with "use: service"
     # https://goo.gl/6UnfmE
