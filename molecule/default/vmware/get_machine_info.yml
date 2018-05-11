@@ -1,0 +1,23 @@
+---
+- name: load creds
+  include_vars: vmware/vsphere_credentials.yml
+
+- name: Get machine IP
+  vmware_guest_facts:
+    hostname: "{{ platform.vmware_vcenter_address }}"
+    username: "{{ vsphere_username }}"
+    password: "{{ vsphere_password }}"
+    validate_certs: false
+    datacenter: "{{ platform.vmware_datacenter }}"
+    folder: "/{{ platform.vmware_datacenter }}/vm/"
+    name: "{{ platform.vmware_hostname }}"
+  register: vmware_facts
+  delegate_to: localhost
+
+- name: Add hosts to ssh_config
+  blockinfile:
+    block: |
+      Host {{ platform.vmware_hostname }}
+      HostName {{ vmware_facts.instance.ipv4 }}
+    path: /tmp/ssh_config
+  delegate_to: localhost

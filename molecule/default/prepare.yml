@@ -2,4 +2,20 @@
 - name: Prepare
   hosts: all
   gather_facts: false
+
+  # Do not remove!
+  pre_tasks:
+    - name: load molekunden
+      include_vars: molecule.yml
+
+    - name: Copy ssh_config_base
+      command: cp vmware/ssh_config_base /tmp/ssh_config
+      args:
+        creates: /tmp/ssh_config
+      delegate_to: localhost
+
+    - name: Create records in ssh_config
+      include_tasks: vmware/get_machine_info.yml platform={{ item }}
+      with_items: "{{ platforms }}"
+
   tasks: []
