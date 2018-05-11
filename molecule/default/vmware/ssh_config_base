@@ -1,0 +1,4 @@
+Host *
+    StrictHostKeyChecking no
+    user root
+    IdentityFile vmware/id_rsa

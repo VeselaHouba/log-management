@@ -1,25 +1,20 @@
----
+variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+
 stages:
     - lint
     - tests
 
 before_script:
     - pwd
-    - git submodule sync
-    - git submodule update --init
-    - docker --version
 
 conventions:
     stage: lint
     script: ci/conventions.sh
-    only:
-        - branches
 
 shellcheck:
     stage: lint
     script: ci/shellcheck.sh
-    only:
-        - branches
 
 ansible-lint:
     stage: lint
@@ -29,6 +24,13 @@ ansible-lint:
 
 molecule:
     stage: tests
-    script: ci/molecule.sh
+    script: ci/molecule.sh test
     only:
         - branches
+
+molecule debug:
+    stage: tests
+    script: ci/molecule.sh --debug test --destroy never
+    only:
+        - branches
+    when: manual

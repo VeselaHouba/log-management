@@ -12,3 +12,8 @@ def test_hosts_file(host):
     assert f.exists
     assert f.user == 'root'
     assert f.group == 'root'
+
+
+def test_port_open(host):
+    sock = host.socket("tcp://0.0.0.0:9200")
+    assert sock.is_listening

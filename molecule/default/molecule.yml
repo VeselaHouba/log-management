@@ -2,28 +2,41 @@
 dependency:
   name: galaxy
 driver:
-  name: docker
+  name: delegated
+  options:
+    managed: true
+    ansible_connection_options:
+      connection: ssh
+      ansible_ssh_common_args: '-F /tmp/ssh_config'
 lint:
   name: yamllint
 platforms:
-  - name: ansible-log-management
-    image: registry.betsys.com/org/centos7-systemd
-    privileged: true
-    command: /usr/sbin/init
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: ansible-roletest-_ROLE_NAME_PLACEHOLDER_
+    vmware_hostname: ansible-roletest-_ROLE_NAME_PLACEHOLDER_
+    vmware_network_name: DATA-1
+    vmware_datastore: Datastore
+    vmware_datacenter: devel
+    vmware_vcenter_address: 192.168.100.30
+    memory: 512
+    cpu: 2
+    disk_size: 20
+    os_template: template_centos7_v02
+    esxi_hostname: 192.168.100.20
+
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
   inventory:
     host_vars:
-      ansible-log-management:
+      ansible-roletest-_ROLE_NAME_PLACEHOLDER_:
         lm_server_roles:
           - elasticsearch
           - kibana
           - logstash
           - rsyslog
+          - auditbeat
+
 scenario:
   name: default
 verifier:
