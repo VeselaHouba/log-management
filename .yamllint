@@ -1,5 +1,11 @@
 extends: default
 
+ignore: |
+  **/000_all_vault.yml
+  **/vault.yml
+  .gitlab-ci.yml
+  /venv/
+
 rules:
   braces:
     max-spaces-inside: 1

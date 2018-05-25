@@ -5,9 +5,6 @@
   gather_facts: false
   no_log: "{{ not lookup('env', 'MOLECULE_DEBUG') | bool }}"
   tasks:
-    - name: load creds
-      include_vars: vmware/vsphere_credentials.yml
-
     - name: destroy machine
       include_tasks: vmware/destroy_machine.yml platform={{ item }}
       with_items: "{{ molecule_yml.platforms }}"

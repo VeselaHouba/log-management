@@ -1,20 +1,36 @@
 #!/usr/bin/env bash
-DOCKERIMG=registry.betsys.com/org/ansible-linter:latest-master
-rolename=$(basename "${PWD}")
+if [ $# -eq 0 ]; then
+  echo "This script requires command as argument"
+  exit 1
+fi
+DOCKERIMG=${MOLECULE_IMAGE:-'registry.betsys.com/devops/molecule:latest-master'}
+ROLEPATH=/tmp/$(basename "${PWD}")
 if [ -z "${ANSIBLE_VSPHERE_USER+x}" ] || [ -z "${ANSIBLE_VSPHERE_PASS+x}" ]; then
   echo "Enviroment variables ANSIBLE_VSPHERE_USER and ANSIBLE_VSPHERE_PASS have to be defined"
   exit 1
 fi
-cp molecule/default/vmware/vsphere_credentials_template.yml molecule/default/vmware/vsphere_credentials.yml
-sed -i "s/USER/${ANSIBLE_VSPHERE_USER}/g" molecule/default/vmware/vsphere_credentials.yml
-sed -i "s/PASSWORD/${ANSIBLE_VSPHERE_PASS}/g" molecule/default/vmware/vsphere_credentials.yml
-sed -i "s/_ROLE_NAME_PLACEHOLDER_/${rolename}/g" molecule/default/molecule.yml molecule/default/playbook.yml
-chmod 644 molecule/default/vmware/id_rsa
-rolename=$(basename "${PWD}")
+
+echo "Using molecule image ${MOLECULE_IMAGE}"
 docker pull "${DOCKERIMG}"
-docker run --rm\
- -v "$(pwd)":/tmp/"${rolename}":ro\
+CONTAINER_ID=$(docker run -d --rm\
+ -v "$(pwd)":/tmp/role_source:ro\
  -v /var/run/docker.sock:/var/run/docker.sock\
- -w /tmp/"${rolename}"\
+ --env ANSIBLE_VSPHERE_USER\
+ --env ANSIBLE_VSPHERE_PASS\
+ --env GITLAB_USER="${GIT_USER:-gitlab-ci-token}"\
+ --env GITLAB_TOKEN="${GIT_TOKEN:-$CI_BUILD_TOKEN}"\
+ --env ROLEPATH="${ROLEPATH}"\
  "${DOCKERIMG}"\
- molecule "$@"
+ sleep 1d)
+
+# configure docker image
+docker exec "${CONTAINER_ID}" bash -c "/opt/configure_docker.sh"
+
+# run commands from CI
+docker exec "${CONTAINER_ID}" bash -c "cd ${ROLEPATH} && $*"
+exit_code_ci=$?
+
+# stop container
+docker stop "${CONTAINER_ID}"
+
+exit $exit_code_ci

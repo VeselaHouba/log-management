@@ -4,6 +4,7 @@ variables:
 stages:
     - lint
     - tests
+    - cleanup
 
 before_script:
     - pwd
@@ -22,15 +23,21 @@ ansible-lint:
     only:
         - branches
 
-molecule:
+molecule - test:
     stage: tests
-    script: ci/molecule.sh test
+    script: ci/molecule.sh "molecule destroy ; molecule test --destroy never"
     only:
         - branches
 
-molecule debug:
+molecule - debug:
     stage: tests
-    script: ci/molecule.sh --debug test --destroy never
+    script: ci/molecule.sh "molecule destroy ; molecule --debug test --destroy never"
     only:
         - branches
     when: manual
+
+molecule - cleanup:
+    stage: cleanup
+    script: ci/molecule.sh "molecule destroy"
+    only:
+        - branches
