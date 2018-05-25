@@ -5,3 +5,4 @@
 - name: Run playbook by role name
   include_tasks: "{{ item }}.yml"
   with_items: "{{ lm_server_roles }}"
+  tags: logstash-config

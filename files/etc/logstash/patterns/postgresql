@@ -1,3 +1,6 @@
 # Default postgresql pg_log format pattern
 POSTGRESQL %{DATESTAMP:timestamp} %{TZ} %{DATA:user_id} %{GREEDYDATA:connection_id} %{POSINT:pid}
-
+PG_TIMESTAMP %{YEAR}-%{MONTHNUM}-%{MONTHDAY} %{TIME}
+PG_LOGLEVEL %{LOGLEVEL}|LOG|STATEMENT|HINT|DETAIL|CONTEXT
+POSTGRESQL2 %{PG_TIMESTAMP:datetime} %{DATA:timezone} \[%{DATA:process}\]: \[%{DATA:conn_id}\] user=(%{DATA:dbuser})?,db=(%{DATA:dbname})?,host=(%{DATA:dbhost})?,app=(%{DATA:dbapp})?%{PG_LOGLEVEL:loglevel}:%{SPACE}%{GREEDYDATA:logmessage}
+POSTGRESQL3 %{PG_TIMESTAMP:datetime} %{DATA:timezone} \[%{DATA:process}\]: \[%{DATA:conn_id}\] %{GREEDYDATA:logmessage}

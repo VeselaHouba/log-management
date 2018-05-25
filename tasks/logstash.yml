@@ -20,6 +20,7 @@
     mode: 0644
   notify: restart logstash
   become: true
+  tags: logstash-config
 
 - name: Copy grok patterns
   copy:
@@ -30,6 +31,7 @@
     mode: 0644
   notify: restart logstash
   become: true
+  tags: logstash-config
 
 - name: Copy config templates
   template:
@@ -41,7 +43,7 @@
     loop_var: template
   notify: restart logstash
   become: true
-
+  tags: logstash-config
 
 - name: start logstash
   service:

@@ -13,9 +13,14 @@
       args:
         creates: /tmp/ssh_config
       delegate_to: localhost
+      run_once: true
 
     - name: Create records in ssh_config
       include_tasks: vmware/get_machine_info.yml platform={{ item }}
       with_items: "{{ platforms }}"
+      run_once: true
 
+    - name: Wait for VM to get online
+      wait_for_connection:
+        timeout: 120
   tasks: []

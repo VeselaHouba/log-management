@@ -1,6 +1,8 @@
 ---
 dependency:
   name: galaxy
+  options:
+    ignore-certs: true
 driver:
   name: delegated
   options:
@@ -11,8 +13,8 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: ansible-roletest-_ROLE_NAME_PLACEHOLDER_
-    vmware_hostname: ansible-roletest-_ROLE_NAME_PLACEHOLDER_
+  - name: ansible-roletest-log-management
+    vmware_hostname: ansible-roletest-log-management
     vmware_network_name: DATA-1
     vmware_datastore: Datastore
     vmware_datacenter: devel
@@ -29,13 +31,14 @@ provisioner:
     name: ansible-lint
   inventory:
     host_vars:
-      ansible-roletest-_ROLE_NAME_PLACEHOLDER_:
+      ansible-roletest-log-management:
         lm_server_roles:
           - elasticsearch
           - kibana
           - logstash
           - rsyslog
           - auditbeat
+          - filebeat
 
 scenario:
   name: default
