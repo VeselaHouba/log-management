@@ -1,0 +1,20 @@
+---
+- name: Install filebeat
+  yum:
+    name: filebeat
+    state: installed
+  become: true
+
+- name: configure filebeat
+  template:
+    src: etc/filebeat/filebeat.yml.j2
+    dest: /etc/filebeat/filebeat.yml
+  notify: restart filebeat
+  become: true
+
+- name: Start filebeat
+  service:
+    name: filebeat
+    state: started
+    enabled: true
+  become: true
