@@ -4,3 +4,4 @@ PG_TIMESTAMP %{YEAR}-%{MONTHNUM}-%{MONTHDAY} %{TIME}
 PG_LOGLEVEL %{LOGLEVEL}|LOG|STATEMENT|HINT|DETAIL|CONTEXT
 POSTGRESQL2 %{PG_TIMESTAMP:datetime} %{DATA:timezone} \[%{DATA:process}\]: \[%{DATA:conn_id}\] user=(%{DATA:dbuser})?,db=(%{DATA:dbname})?,host=(%{DATA:dbhost})?,app=(%{DATA:dbapp})?%{PG_LOGLEVEL:loglevel}:%{SPACE}%{GREEDYDATA:logmessage}
 POSTGRESQL3 %{PG_TIMESTAMP:datetime} %{DATA:timezone} \[%{DATA:process}\]: \[%{DATA:conn_id}\] %{GREEDYDATA:logmessage}
+POSTGRESQL4 (%{SPACE}<%{SPACE})?%{PG_TIMESTAMP:datetime} %{DATA:timezone}%{SPACE}>(%{SPACE}-%{SPACE}0)?%{PG_LOGLEVEL:loglevel}:%{SPACE}%{GREEDYDATA:logmessage}
