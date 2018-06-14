@@ -8,6 +8,14 @@ filebeat.prospectors:
     multiline.pattern: '^(<[[:space:]])?[0-9]{4}-[0-1][0-9]-[0-3][0-9]'
     multiline.negate: true
     multiline.match: after
+
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/nginx/access.log
+    fields:
+      logtype: nginx_access
+
 setup.template.settings:
   index.number_of_shards: 3
 output.logstash:
