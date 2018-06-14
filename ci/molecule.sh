@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+CONTAINER_LIFETIME=2h
 if [ $# -eq 0 ]; then
   echo "This script requires command as argument"
   exit 1
@@ -14,14 +15,13 @@ echo "Using molecule image ${MOLECULE_IMAGE}"
 docker pull "${DOCKERIMG}"
 CONTAINER_ID=$(docker run -d --rm\
  -v "$(pwd)":/tmp/role_source:ro\
- -v /var/run/docker.sock:/var/run/docker.sock\
  --env ANSIBLE_VSPHERE_USER\
  --env ANSIBLE_VSPHERE_PASS\
  --env GITLAB_USER="${GIT_USER:-gitlab-ci-token}"\
  --env GITLAB_TOKEN="${GIT_TOKEN:-$CI_BUILD_TOKEN}"\
  --env ROLEPATH="${ROLEPATH}"\
  "${DOCKERIMG}"\
- sleep 1d)
+ sleep "${CONTAINER_LIFETIME}")
 
 # configure docker image
 docker exec "${CONTAINER_ID}" bash -c "/opt/configure_docker.sh"
@@ -30,7 +30,12 @@ docker exec "${CONTAINER_ID}" bash -c "/opt/configure_docker.sh"
 docker exec "${CONTAINER_ID}" bash -c "cd ${ROLEPATH} && $*"
 exit_code_ci=$?
 
-# stop container
-docker stop "${CONTAINER_ID}"
+if [ "${exit_code_ci}" == 0 ]; then
+  # stop container
+  echo "Destroying container ${CONTAINER_ID}"
+  docker stop "${CONTAINER_ID}"
+else
+  echo "Keeping container ${CONTAINER_ID} up for debug. It will self-destroy after ${CONTAINER_LIFETIME}"
+fi
 
 exit $exit_code_ci
