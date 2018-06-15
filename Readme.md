@@ -42,6 +42,8 @@ lm_server_roles: []
  cluster needs (n+1)/2. (default: `1`)
 * `lm_es_logdir` - default: /var/log/elasticsearch
 * `lm_es_datadir` - default: /var/lib/elasticsearch
+* `lm_use_curator` - Enable automatic drop of indexes (cleaning) default: `true`
+* `lm_curator_keep_days` - How many days to keep indexes default: `45`
 
 ### kibana related config
 * `lm_kibana_port` - Where will kibana listen. (default: `5601`)

@@ -13,3 +13,12 @@
     gpgkey: "{{ lm_es_repo_gpg_key }}"
     gpgcheck: true
   become: true
+
+- name: Install curator repo
+  yum_repository:
+    name: curator-5
+    description: CentOS/RHEL 7 repository for Elasticsearch Curator 5.x packages
+    baseurl: "{{ lm_cur_repo_url }}"
+    gpgkey: "{{ lm_cur_repo_gpg_key }}"
+    gpgcheck: true
+  become: true
