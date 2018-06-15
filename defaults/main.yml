@@ -50,3 +50,7 @@ lm_server_roles: []
 
 # this mode enables binding to specific iface
 lm_dev_mode: false
+
+lm_elasticsearch_jvm_opts:
+  - { name: Xms, value: Xms1g }
+  - { name: Xmx, value: Xmx1g }
