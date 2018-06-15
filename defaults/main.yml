@@ -3,6 +3,8 @@
 lm_es_major_version: 6
 lm_es_repo_url: "https://artifacts.elastic.co/packages/{{ lm_es_major_version }}.x/yum"
 lm_es_repo_gpg_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+lm_cur_repo_url: https://packages.elastic.co/curator/5/centos/7
+lm_cur_repo_gpg_key: https://packages.elastic.co/GPG-KEY-elasticsearch
 lm_es_java_version: 1.8.0-openjdk
 
 # elasticsearch related config
@@ -13,6 +15,10 @@ lm_es_http_port: 9200
 lm_es_min_cluster_nodes: 1
 lm_es_logdir: /var/log/elasticsearch
 lm_es_datadir: /var/lib/elasticsearch
+# enable curator - automatic logs cleanup
+lm_use_curator: true
+# how many days will be kept in history
+lm_curator_keep_days: 45
 
 # logstash related config
 lm_logstash_syslog_port: 5044

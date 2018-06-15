@@ -9,11 +9,42 @@
     name: elasticsearch
   become: true
 
+- block:
+    - name: install curator
+      yum:
+        name: elasticsearch-curator
+      become: true
+
+    - name: Configure curator
+      copy:
+        src: etc/elasticsearch/curator.yml
+        dest: /etc/elasticsearch/curator.yml
+        owner: root
+        group: root
+        mode: 0600
+      become: true
+
+    - name: Configure curator action
+      template:
+        src: etc/elasticsearch/curator.clean.j2
+        dest: /etc/elasticsearch/curator.clean
+      become: true
+
+    - name: Enable curator
+      cron:
+        name: Clean logstash indices
+        user: root
+        cron_file: curator
+        job: curator --config /etc/elasticsearch/curator.yml /etc/elasticsearch/curator.clean &>/dev/null
+        hour: 3
+        minute: 0
+      become: true
+  when: lm_use_curator
+
 - name: configure elasticsearch
   template:
     src: etc/elasticsearch/elasticsearch.yml.j2
     dest: /etc/elasticsearch/elasticsearch.yml
-    backup: true
   notify: restart elasticsearch
   become: true
 
