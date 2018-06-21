@@ -43,7 +43,9 @@ lm_server_roles: []
 * `lm_es_logdir` - default: /var/log/elasticsearch
 * `lm_es_datadir` - default: /var/lib/elasticsearch
 * `lm_use_curator` - Enable automatic drop of indexes (cleaning) default: `true`
-* `lm_curator_keep_days` - How many days to keep indexes default: `45`
+* `lm_curator_keep_days` - How many days to keep indexes (default: `45`)
+* `lm_number_of_replicas`: - How many replicas of shards to keep. (default: `1`)
+* `lm_number_of_replicas_age`: - Apply `lm_number_of_replicas` only on replicas older than X days (default: `5`)
 
 ### kibana related config
 * `lm_kibana_port` - Where will kibana listen. (default: `5601`)
