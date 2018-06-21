@@ -19,6 +19,10 @@ lm_es_datadir: /var/lib/elasticsearch
 lm_use_curator: true
 # how many days will be kept in history
 lm_curator_keep_days: 45
+# default is 1 replica of shard
+lm_number_of_replicas: 1
+# apply number of replicas on shards older than X days
+lm_number_of_replicas_age: 5
 
 # logstash related config
 lm_logstash_syslog_port: 5044

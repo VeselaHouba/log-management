@@ -18,3 +18,20 @@ actions:
       timestring: '%Y.%m.%d'
       unit: days
       unit_count: {{ lm_curator_keep_days }}
+  2:
+    action: index_settings
+    description: "Set number of replicas on indices older than 1 day"
+    options:
+      index_settings:
+        index:
+          number_of_replicas: {{ lm_number_of_replicas }}
+    filters:
+    - filtertype: pattern
+      kind: prefix
+      value: logstash-
+    - filtertype: age
+      source: name
+      direction: older
+      timestring: '%Y.%m.%d'
+      unit: days
+      unit_count: {{ lm_number_of_replicas_age }}
