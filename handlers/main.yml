@@ -38,7 +38,7 @@
 - name: reload systemd
   systemd:
     name: elastalert
-    daemon_reload: yes
+    daemon_reload: true
   become: true
 
 - name: restart elastalert

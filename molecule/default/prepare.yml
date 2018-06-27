@@ -23,4 +23,28 @@
     - name: Wait for VM to get online
       wait_for_connection:
         timeout: 120
+
+    - name: create user ansible
+      user:
+        name: ansible
+
+    - name: Allow ansible to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^ansible'
+        line: 'ansible ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Copy authorized keys from root to ansible
+      command: cp -a /root/.ssh /home/ansible/
+      args:
+        creates: /home/ansible/.ssh
+
+    - name: Make ansible owner of files
+      file:
+        path: /home/ansible/.ssh
+        recurse: true
+        owner: ansible
+        group: ansible
   tasks: []

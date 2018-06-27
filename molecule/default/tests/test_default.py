@@ -17,3 +17,8 @@ def test_hosts_file(host):
 def test_port_open(host):
     sock = host.socket("tcp://0.0.0.0:9200")
     assert sock.is_listening
+
+
+def test_elastalert_running(host):
+    cmd = host.run("systemctl status elastalert")
+    assert cmd.rc == 0
