@@ -39,6 +39,7 @@ provisioner:
           - rsyslog
           - auditbeat
           - filebeat
+          - elastalert
 
 scenario:
   name: default

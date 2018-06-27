@@ -1,0 +1,15 @@
+[Unit]
+Description=elastalert
+After=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/elastalert
+ExecStart=/opt/Yelp/elastalert/bin/elastalert
+User={{ lm_elastalert_user }}
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=elastalert
+
+[Install]
+WantedBy=multi-user.target

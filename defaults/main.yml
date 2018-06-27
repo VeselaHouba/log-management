@@ -64,3 +64,53 @@ lm_dev_mode: false
 lm_elasticsearch_jvm_opts:
   - { name: Xms, value: Xms1g }
   - { name: Xmx, value: Xmx1g }
+
+# elastalert user/group is expected to exist
+lm_elastalert_user: elasticsearch
+lm_elastalert_group: elasticsearch
+lm_elastalert_version: 0.1.32
+lm_elastalert_es_host: localhost
+lm_elastalert_es_port: "{{ lm_es_http_port }}"
+lm_elastalert_es_writeback_index: elastalert_status
+lm_elastalert_es_run_every:
+  minutes: 5
+lm_elastalert_alert_time_limit:
+  days: 2
+lm_elastalert_buffer_time:
+  minutes: 15
+lm_elastalert_es_url: "http://{{ lm_elastalert_es_host }}:{{ lm_elastalert_es_port }}"
+lm_elastalert_rules: []
+# example
+# lm_elastalert_rules:
+#   - name: Nginx errors
+#     type: frequency
+#     index: logstash-*
+#     num_events: 50
+#     timeframe:
+#       minutes: 5
+#     buffer_time:
+#       minutes: 15
+#     filter:
+#       - term:
+#           fields.logtype: nginx_access
+#       - range:
+#           status:
+#             from: 500
+#             to: 600
+#       - query:
+#           query_string:
+#             query: "request: transferuj.php"
+#     alert:
+#       - email
+#     email:
+#       - jan.michalek@betsys.com
+#     alert_text_type: exclude_fields
+
+# elastalert mailing config
+lm_elastalert_smtp_host: localhost
+lm_elastalert_smtp_port: 25
+lm_elastalert_mail_from: LogMonitoring@betsys.com
+# uncomment to enable user auth
+# lm_elastalert_smtp_auth:
+#   user: user@example.com
+#   password: PASS

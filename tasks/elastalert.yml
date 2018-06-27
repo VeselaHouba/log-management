@@ -1,0 +1,101 @@
+---
+- name: install epel-release
+  yum:
+    name: epel-release
+  become: true
+
+- name: Prepare dirs
+  file:
+    path: "{{ dirpath }}"
+    state: directory
+    mode: 0755
+  become: true
+  with_items:
+    - /etc/elastalert
+    - /etc/elastalert/rules
+  loop_control:
+    loop_var: dirpath
+
+- name: Install elastalert dependencies
+  yum:
+    name: "{{ package }}"
+  become: true
+  loop_control:
+    loop_var: package
+  with_items:
+    - python-virtualenv
+    - python-pip
+    - gcc
+
+- name: Install elastalert into virtualenv
+  pip:
+    name: elastalert
+    version: "{{ lm_elastalert_version }}"
+    virtualenv: /opt/Yelp/elastalert/
+  become: true
+
+- name: Create /bin symlink for elastalert
+  file:
+    path: /bin/elastalert
+    src: /opt/Yelp/elastalert/bin/elastalert
+    state: link
+  become: true
+
+- name: Deploy systemd unit file
+  template:
+    src: lib/systemd/system/elastalert.service.j2
+    dest: /lib/systemd/system/elastalert.service
+    owner: root
+    group: root
+  notify: reload systemd
+  become: true
+  tags: elastalert-config
+
+- name: Deploy core elastalert config
+  template:
+    src: etc/elastalert/config.yaml.j2
+    dest: /etc/elastalert/config.yaml
+  notify: restart elastalert
+  become: true
+  tags: elastalert-config
+
+- name: Deploy elastalert rules
+  copy:
+    content: "{{ rule |to_yaml }}"
+    dest: "/etc/elastalert/rules/{{ rule.name | regex_replace(' ','_') }}.yml"
+  with_items: "{{ lm_elastalert_rules }}"
+  loop_control:
+    loop_var: rule
+  become: true
+  notify: restart elastalert
+  tags: elastalert-config
+
+- name: Deploy smtp auth
+  copy:
+    content: "{{ lm_elastalert_smtp_auth | to_yaml }}"
+    dest: /etc/elastalert/smtp.yml
+  become: true
+  when: lm_elastalert_smtp_auth is defined
+  tags: elastalert-config
+
+- name: Check for existing elastalert index
+  uri:
+    url: "{{ lm_elastalert_es_url }}/{{ lm_elastalert_es_writeback_index }}"
+    method: HEAD
+    status_code: 200
+  register: lm_elastalert_index_result
+  changed_when: false
+  ignore_errors: true
+
+- name: Create index
+  command: "/opt/Yelp/elastalert/bin/elastalert-create-index --config /etc/elastalert/config.yaml --index {{ lm_elastalert_es_writeback_index }} --old-index ''"
+  when: lm_elastalert_index_result is failed
+  become_user: "{{ lm_elastalert_user }}"
+  become: true
+
+- name: Make sure elastalert is started
+  systemd:
+    name: elastalert
+    state: started
+    enabled: true
+  become: true
