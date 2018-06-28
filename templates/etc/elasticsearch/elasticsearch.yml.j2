@@ -24,3 +24,4 @@ path.logs: {{ lm_es_logdir }}
 network.bind_host: {{ hostvars[inventory_hostname]['ansible_enp0s8']['ipv4']['address'] }}
 network.publish_host:  {{ hostvars[inventory_hostname]['ansible_enp0s8']['ipv4']['address'] }}
 {% endif %}
+xpack.license.self_generated.type: basic

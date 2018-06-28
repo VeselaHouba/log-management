@@ -34,3 +34,14 @@
     name: rsyslog
     state: restarted
   become: true
+
+- name: reload systemd
+  systemd:
+    daemon_reload: true
+  become: true
+
+- name: restart elastalert
+  service:
+    name: elastalert
+    state: restarted
+  become: true
