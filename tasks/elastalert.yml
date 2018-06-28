@@ -70,6 +70,17 @@
   notify: restart elastalert
   tags: elastalert-config
 
+- name: Elastalert rules schema check
+  command: >
+    /opt/Yelp/elastalert/bin/elastalert-test-rule --schema-only
+    /etc/elastalert/rules/{{ rule.name | regex_replace(' ','_') }}.yml
+  changed_when: false
+  with_items: "{{ lm_elastalert_rules }}"
+  loop_control:
+    loop_var: rule
+  become: true
+  tags: elastalert-config
+
 - name: Deploy smtp auth
   copy:
     content: "{{ lm_elastalert_smtp_auth | to_yaml }}"
