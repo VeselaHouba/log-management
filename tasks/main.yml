@@ -2,6 +2,11 @@
 - name: Install Elastic.co repository
   include_tasks: elastic_repo.yml
 
+- name: Set version for yum if defined
+  set_fact:
+    lm_elk_version: "-{{ lm_elk_version }}"
+  when: lm_elk_version is defined
+
 - name: Run playbook by role name
   include_tasks: "{{ item }}.yml"
   with_items: "{{ lm_server_roles }}"

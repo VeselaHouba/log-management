@@ -104,6 +104,13 @@
   become_user: "{{ lm_elastalert_user }}"
   become: true
 
+- name: Wait until elasticsearch is running
+  wait_for:
+    host: "{{ lm_elastalert_es_host }}"
+    port: "{{ lm_elastalert_es_port }}"
+    delay: 3
+    timeout: 120
+
 - name: Make sure elastalert is started
   systemd:
     name: elastalert

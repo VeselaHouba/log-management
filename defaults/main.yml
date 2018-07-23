@@ -1,6 +1,8 @@
 ---
 # shared config of elastic products
 lm_es_major_version: 6
+# keep undefined for latest from repo
+# lm_elk_version: 6.2.2
 lm_es_repo_url: "https://artifacts.elastic.co/packages/{{ lm_es_major_version }}.x/yum"
 lm_es_repo_gpg_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
 lm_cur_repo_url: https://packages.elastic.co/curator/5/centos/7

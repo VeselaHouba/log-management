@@ -1,7 +1,7 @@
 ---
 - name: Install auditbeat
   yum:
-    name: auditbeat
+    name: auditbeat{{ lm_elk_version|default('') }}
     state: installed
   become: true
 
