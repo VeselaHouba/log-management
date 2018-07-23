@@ -6,7 +6,7 @@
 
 - name: install elasticsearch
   yum:
-    name: elasticsearch
+    name: elasticsearch{{ lm_elk_version|default('') }}
   become: true
 
 - block:

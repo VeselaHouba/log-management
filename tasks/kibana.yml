@@ -1,7 +1,7 @@
 ---
 - name: install kibana
   yum:
-    name: kibana
+    name: kibana{{ lm_elk_version|default('') }}
     state: installed
   become: true
 

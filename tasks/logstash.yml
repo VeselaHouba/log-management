@@ -6,7 +6,7 @@
 
 - name: install logstash
   yum:
-    name: logstash
+    name: logstash{{ lm_elk_version|default('') }}
     state: installed
   notify: restart logstash
   become: true
