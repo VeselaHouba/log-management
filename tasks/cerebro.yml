@@ -1,0 +1,46 @@
+---
+- name: Download cerebro
+  get_url:
+    url: "{{ lm_cerebro_url }}"
+    dest: /opt/cerebro.tgz
+    checksum: "{{ lm_cerebro_checksum }}"
+  register: download_out
+  become: true
+
+- block:
+    - name: Unpack cerebro
+      unarchive:
+        src: /opt/cerebro.tgz
+        dest: /opt/
+        remote_src: true
+        list_files: true
+      become: true
+      register: unpack_out
+      notify: restart cerebro
+
+    - name: Set new symlink
+      file:
+        src: "{{ unpack_out.files[0] }}"
+        path: /opt/cerebro
+        state: link
+        force: true
+      become: true
+  when: download_out.changed
+
+- name: Add systemd script
+  copy:
+    src: etc/systemd/system/cerebro.service
+    dest: /etc/systemd/system/cerebro.service
+    mode: 0644
+    owner: root
+    group: root
+  become: true
+  notify: reload systemd
+
+- name: Make sure cerebro is running
+  systemd:
+    name: cerebro
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true

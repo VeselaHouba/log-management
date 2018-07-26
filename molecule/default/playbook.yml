@@ -3,4 +3,5 @@
   hosts: all
   remote_user: ansible
   roles:
+    - role: lvm-partitions
     - role: log-management
