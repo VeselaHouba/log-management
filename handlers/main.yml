@@ -45,3 +45,9 @@
     name: elastalert
     state: restarted
   become: true
+
+- name: restart cerebro
+  service:
+    name: cerebro
+    state: restarted
+  become: true

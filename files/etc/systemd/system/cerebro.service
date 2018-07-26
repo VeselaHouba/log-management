@@ -1,0 +1,8 @@
+[Unit]
+Description=cerebro
+
+[Service]
+ExecStart=/opt/cerebro/bin/cerebro
+
+[Install]
+WantedBy=multi-user.target
