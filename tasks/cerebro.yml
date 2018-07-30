@@ -27,6 +27,14 @@
       become: true
   when: download_out.changed
 
+- name: Change default context
+  lineinfile:
+    path: /opt/cerebro/conf/application.conf
+    line: basePath = "/cerebro/"
+    regexp: ^basePath
+  become: true
+  notify: restart cerebro
+
 - name: Add systemd script
   copy:
     src: etc/systemd/system/cerebro.service
