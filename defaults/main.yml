@@ -59,6 +59,8 @@ lm_server_roles: []
 #  - logstash
 #  - filebeat
 #  - rsyslog
+#  - elastalert
+#  - cerebro
 
 # this mode enables binding to specific iface
 lm_dev_mode: false
