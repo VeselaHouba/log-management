@@ -71,6 +71,10 @@ lm_server_roles: []
 * `lm_logstash_syslog_port` - Port for receiving rsyslog messages (`5044`)
 * `lm_logstash_beats_port` - Port for receiving filebeat output (`5088`)
 
+### RSyslog config
+* Include server role `rsyslog` in order to configure local rsyslog instance for forwarding messages to logstash backend
+* `lm_rsyslog_listen_enable` - Configure rsyslog to listen on defined ports. (default: `false`). Rsyslog will then log incoming messages locally and also forward to logstash. (Useful for direct *app -> syslog* logging instead of *app -> stdout -> docker -> syslog*)
+* `lm_rsyslog_listen_port` - Port for listening rsyslog. Used for both, TCP and UDP. (default: `514`)
 
 
 ### Hosts definitions

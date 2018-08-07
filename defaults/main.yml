@@ -26,9 +26,14 @@ lm_number_of_replicas: 1
 # apply number of replicas on shards older than X days
 lm_number_of_replicas_age: 5
 
-# logstash related config
+# logstash will listen on following ports
 lm_logstash_syslog_port: 5044
 lm_logstash_beats_port: 5088
+
+# enable rsyslog listening on all ifaces
+lm_rsyslog_listen_enable: false
+# rsyslog listen port (same for TCP and UDP)
+lm_rsyslog_listen_port: 514
 
 # kibana related config
 lm_kibana_port: 5601
