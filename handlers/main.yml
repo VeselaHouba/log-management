@@ -41,10 +41,7 @@
   become: true
 
 - name: restart elastalert
-  service:
-    name: elastalert
-    state: restarted
-  become: true
+  include_tasks: elastalert_handler.yml
 
 - name: restart cerebro
   service:
