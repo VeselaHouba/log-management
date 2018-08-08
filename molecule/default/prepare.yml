@@ -36,6 +36,13 @@
         line: 'ansible ALL=(ALL) NOPASSWD: ALL'
         validate: 'visudo -cf %s'
 
+    - name: remove requiretty from sudoers
+      lineinfile:
+        dest: /etc/sudoers
+        regexp: '^Defaults(\s+)(.*)requiretty(.*)'
+        line: '#Defaults\1\2requiretty\3'
+        backrefs: true
+
     - name: Copy authorized keys from root to ansible
       command: cp -a /root/.ssh /home/ansible/
       args:
