@@ -24,6 +24,9 @@ platforms:
 
 provisioner:
   name: ansible
+  config_options:
+    defaults:
+      pipelining: true
   connection_options:
     ansible_ssh_common_args: -F /tmp/ssh_config
   lint:

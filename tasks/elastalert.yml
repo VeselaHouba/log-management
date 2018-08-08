@@ -95,11 +95,14 @@
   become: true
 
 - name: Wait until elasticsearch is running
-  wait_for:
-    host: "{{ lm_elastalert_es_host }}"
-    port: "{{ lm_elastalert_es_port }}"
-    delay: 3
-    timeout: 120
+  command: curl --head --silent {{ lm_elastalert_es_host }}:{{ lm_elastalert_es_port }}/elastalert_status
+  args:
+    warn: false
+  register: result
+  until: result.stdout.find("200 OK") != -1
+  retries: 12
+  delay: 5
+  changed_when: false
 
 - name: Make sure elastalert is started
   systemd:
