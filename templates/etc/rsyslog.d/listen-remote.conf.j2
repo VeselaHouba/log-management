@@ -1,0 +1,8 @@
+# {{ ansible_managed }} - {{ role_name }}
+# Provides UDP syslog reception
+$ModLoad imudp
+$UDPServerRun {{ lm_rsyslog_listen_port }}
+
+# Provides TCP syslog reception
+$ModLoad imtcp
+$InputTCPServerRun {{ lm_rsyslog_listen_port }}

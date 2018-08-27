@@ -9,7 +9,7 @@
   delay: 5
   changed_when: false
 
-- name: Make sure elastalert is started
+- name: Restart elastalert
   systemd:
     name: elastalert
     state: restarted
