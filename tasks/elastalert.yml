@@ -65,6 +65,19 @@
     dest: "/etc/elastalert/rules/{{ rule.name | regex_replace(' ','_') }}.yml"
     validate: /opt/Yelp/elastalert/bin/elastalert-test-rule --schema-only %s
   with_items: "{{ lm_elastalert_rules }}"
+  when: rule.state | default('present') == 'present'
+  loop_control:
+    loop_var: rule
+  become: true
+  notify: restart elastalert
+  tags: elastalert-config
+
+- name: Remove disabled rules
+  file:
+    path: "/etc/elastalert/rules/{{ rule.name | regex_replace(' ','_') }}.yml"
+    state: absent
+  with_items: "{{ lm_elastalert_rules }}"
+  when: rule.state | default('present') == 'absent'
   loop_control:
     loop_var: rule
   become: true
