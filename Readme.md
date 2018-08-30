@@ -4,7 +4,22 @@ ansible/log-management
 
 Role installing **Elastic.co** products.
 
-* TODO: Description
+This role will install multiple components of ELK stack and other minor services. See HowTo below and also [defaults](defaults/main.yml) for examples.
+
+## Quickstart
+1. Clone repo to your `roles` directory
+```
+git clone git@github.com:VeselaHouba/log-management.git
+```
+1. Include role for your servers in `playbook.yml`
+
+```
+---
+- hosts: all
+  roles:
+    - log-management
+```
+
 
 Role Variables
 --------------
