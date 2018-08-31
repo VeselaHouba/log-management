@@ -33,6 +33,7 @@
     version: "{{ lm_elastalert_version }}"
     virtualenv: /opt/Yelp/elastalert/
   become: true
+  notify: restart elastalert
 
 - name: Create /bin symlink for elastalert
   file:

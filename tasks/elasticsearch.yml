@@ -8,6 +8,7 @@
   yum:
     name: elasticsearch{{ lm_elk_version|default('') }}
   become: true
+  notify: restart elasticsearch
 
 - block:
     - name: install curator
