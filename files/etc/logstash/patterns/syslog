@@ -1,0 +1,4 @@
+S_TIMESTAMP %{YEAR}-%{MONTHNUM}-%{MONTHDAY} %{TIME}
+JSONSTRING \{.*\}
+SYSLOG_JSON \[%{S_TIMESTAMP:datetime}\] %{DATA:ident}\.%{LOGLEVEL:loglevel}: %{DATA:reason} %{JSONSTRING:JSON}
+SYSLOG_01 \[%{S_TIMESTAMP:datetime}\] %{DATA:ident}\.%{LOGLEVEL:loglevel}: %{DATA:reason} %{GREEDYDATA:logmessage}
