@@ -4,6 +4,7 @@
     name: kibana{{ lm_elk_version|default('') }}
     state: installed
   become: true
+  notify: restart kibana
 
 - name: configure kibana
   template:

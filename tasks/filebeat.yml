@@ -4,6 +4,7 @@
     name: filebeat{{ lm_elk_version|default('') }}
     state: installed
   become: true
+  notify: restart filebeat
 
 - name: configure filebeat
   template:

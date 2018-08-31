@@ -4,6 +4,7 @@
     name: auditbeat{{ lm_elk_version|default('') }}
     state: installed
   become: true
+  notify: restart auditbeat
 
 - name: configure auditbeat
   template:
