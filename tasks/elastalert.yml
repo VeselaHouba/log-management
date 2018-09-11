@@ -35,6 +35,17 @@
   become: true
   notify: restart elastalert
 
+- name: Install custom patches
+  copy:
+    src: elastalert/
+    dest: /opt/Yelp/elastalert/lib/python2.7/site-packages/elastalert
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart elastalert
+  become: true
+  tags: elastalert-config
+
 - name: Create /bin symlink for elastalert
   file:
     path: /bin/elastalert
