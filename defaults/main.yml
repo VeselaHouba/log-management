@@ -42,10 +42,11 @@ lm_kibana_hostname: "{{ ansible_fqdn }}"
 # connection from kibana to Elastic
 lm_kibana_es_host: "{{ lm_elastic_hosts[0] }}"
 lm_kibana_es_port: "{{ lm_es_http_port }}"
+# custom options set to kibana config
+lm_kibana_extra_options:
 
 # auditbeat related config
 lm_auditbeat_init: false
-
 
 # Hosts definitions: Values will be filled into config files
 # Must be resovlable (IP / Host)
