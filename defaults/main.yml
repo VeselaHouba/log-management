@@ -13,6 +13,7 @@ lm_es_java_version: 1.8.0-openjdk
 lm_es_cluster_name: log
 lm_es_node_name: "{{ ansible_fqdn }}"
 lm_es_network_host: 0.0.0.0
+lm_es_network_publish_host: ""
 lm_es_http_port: 9200
 lm_es_min_cluster_nodes: 1
 lm_es_logdir: /var/log/elasticsearch
