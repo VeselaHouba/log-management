@@ -3,6 +3,9 @@
 cluster.name: {{ lm_es_cluster_name }}
 node.name: {{ lm_es_node_name }}
 network.host: {{ lm_es_network_host }}
+{% if lm_es_network_publish_host != "" %}
+network.publish_host: {{ lm_es_network_publish_host }}
+{% endif %}
 discovery.zen.minimum_master_nodes: {{ lm_es_min_cluster_nodes }}
 discovery.zen.ping.unicast.hosts: [{% for host in lm_elastic_hosts %}"{{ host }}"{% if not loop.last %}, {% endif %}{% endfor %}]
 
