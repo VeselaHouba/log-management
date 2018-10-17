@@ -27,6 +27,18 @@
     - python-pip
     - gcc
 
+- name: Install elastalert dependencies into virtualenv
+  pip:
+    name: "{{ package.name }}"
+    version: "{{ package.version }}"
+    virtualenv: /opt/Yelp/elastalert/
+  become: true
+  with_items:
+    - { name: urllib3, version: 1.23 }
+    - { name: chardet, version: 3.0.2 }
+  loop_control:
+    loop_var: package
+
 - name: Install elastalert into virtualenv
   pip:
     name: elastalert

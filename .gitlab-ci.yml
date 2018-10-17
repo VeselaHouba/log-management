@@ -1,3 +1,4 @@
+---
 variables:
     GIT_SUBMODULE_STRATEGY: recursive
 
@@ -25,19 +26,19 @@ ansible-lint:
 
 molecule - test:
     stage: tests
-    script: ci/molecule.sh "molecule destroy ; molecule test --destroy never"
+    script: ci/molecule.sh "molecule test --all"
     only:
         - branches
 
 molecule - debug:
     stage: tests
-    script: ci/molecule.sh "molecule destroy ; molecule --debug test --destroy never"
+    script: ci/molecule.sh "molecule destroy --all; molecule --debug test --destroy never --all"
     only:
         - branches
     when: manual
 
 molecule - cleanup:
     stage: cleanup
-    script: ci/molecule.sh "molecule destroy"
+    script: ci/molecule.sh "molecule destroy --all"
     only:
         - branches

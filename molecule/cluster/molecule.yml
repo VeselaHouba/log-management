@@ -10,8 +10,20 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: ansible-roletest-log-management
-    vmware_hostname: ansible-roletest-log-management
+  - name: ansible-roletest-log-management-1
+    vmware_hostname: ansible-roletest-log-management-1
+    vmware_network_name: DATA-1
+    vmware_datastore: Datastore
+    vmware_datacenter: devel
+    vmware_vcenter_address: 192.168.100.30
+    memory: 4096
+    cpu: 2
+    disk_size: 20
+    os_template: template_centos7_v01
+    esxi_hostname: 192.168.100.20
+
+  - name: ansible-roletest-log-management-2
+    vmware_hostname: ansible-roletest-log-management-2
     vmware_network_name: DATA-1
     vmware_datastore: Datastore
     vmware_datacenter: devel
@@ -32,8 +44,19 @@ provisioner:
   lint:
     name: ansible-lint
   inventory:
-    host_vars:
-      ansible-roletest-log-management:
+    group_vars:
+      all:
+        lm_elastic_hosts:
+          - ansible-roletest-log-management-1
+          - ansible-roletest-log-management-2
+        lm_logstash_hosts:
+          - ansible-roletest-log-management-1
+          - ansible-roletest-log-management-2
+        lm_kibana_hosts:
+          - ansible-roletest-log-management-1
+          - ansible-roletest-log-management-2
+        lm_es_min_cluster_nodes: 2
+
         parted_action: resize
         parted_device: /dev/sda
         parted_number: 2
@@ -46,41 +69,13 @@ provisioner:
           - logstash
           - elasticsearch
           - kibana
-          - rsyslog
-          - auditbeat
-          - filebeat
-          - elastalert
           - cerebro
         lm_elasticsearch_jvm_opts:
           - { name: Xms, value: Xms1g }
           - { name: Xmx, value: Xmx1g }
-        lm_elastalert_rules:
-          - name: Nginx errors
-            type: frequency
-            index: logstash-*
-            num_events: 50
-            timeframe:
-              minutes: 5
-            buffer_time:
-              minutes: 15
-            filter:
-              - term:
-                  fields.logtype: nginx_access
-              - range:
-                  status:
-                    from: 500
-                    to: 600
-              - query:
-                  query_string:
-                    query: "request: transferuj.php"
-            alert:
-              - email
-            email:
-              - jan.michalek@betsys.com
-            alert_text_type: exclude_fields
 
 scenario:
-  name: default
+  name: cluster
 verifier:
   name: testinfra
   lint:
