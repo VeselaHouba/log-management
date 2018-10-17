@@ -41,7 +41,7 @@ provisioner:
         lvm_lvname: root
         lvm_lvfilesystem: ext4
         lvm_lvmount: /
-        lvm_lvsize: 18G
+        lvm_lvsize: +100%FREE
         lm_server_roles:
           - logstash
           - elasticsearch
