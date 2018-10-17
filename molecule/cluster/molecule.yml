@@ -1,0 +1,83 @@
+---
+dependency:
+  name: galaxy
+  options:
+    ignore-certs: true
+driver:
+  name: delegated
+  options:
+    managed: true
+lint:
+  name: yamllint
+platforms:
+  - name: ansible-roletest-log-management-1
+    vmware_hostname: ansible-roletest-log-management-1
+    vmware_network_name: DATA-1
+    vmware_datastore: Datastore
+    vmware_datacenter: devel
+    vmware_vcenter_address: 192.168.100.30
+    memory: 4096
+    cpu: 2
+    disk_size: 20
+    os_template: template_centos7_v01
+    esxi_hostname: 192.168.100.20
+
+  - name: ansible-roletest-log-management-2
+    vmware_hostname: ansible-roletest-log-management-2
+    vmware_network_name: DATA-1
+    vmware_datastore: Datastore
+    vmware_datacenter: devel
+    vmware_vcenter_address: 192.168.100.30
+    memory: 4096
+    cpu: 2
+    disk_size: 20
+    os_template: template_centos7_v01
+    esxi_hostname: 192.168.100.20
+
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      pipelining: true
+  connection_options:
+    ansible_ssh_common_args: -F /tmp/ssh_config
+  lint:
+    name: ansible-lint
+  inventory:
+    group_vars:
+      all:
+        lm_elastic_hosts:
+          - ansible-roletest-log-management-1
+          - ansible-roletest-log-management-2
+        lm_logstash_hosts:
+          - ansible-roletest-log-management-1
+          - ansible-roletest-log-management-2
+        lm_kibana_hosts:
+          - ansible-roletest-log-management-1
+          - ansible-roletest-log-management-2
+        lm_es_min_cluster_nodes: 2
+
+        parted_action: resize
+        parted_device: /dev/sda
+        parted_number: 2
+        lvm_vgname: vg01
+        lvm_lvname: root
+        lvm_lvfilesystem: ext4
+        lvm_lvmount: /
+        lvm_lvsize: +100%FREE
+        lm_server_roles:
+          - logstash
+          - elasticsearch
+          - kibana
+          - cerebro
+        lm_elasticsearch_jvm_opts:
+          - { name: Xms, value: Xms1g }
+          - { name: Xmx, value: Xmx1g }
+
+scenario:
+  name: cluster
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
+    enabled: true
