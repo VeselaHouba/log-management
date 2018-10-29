@@ -11,6 +11,17 @@
   notify: restart logstash
   become: true
 
+- name: Copy main config file
+  copy:
+    src: etc/logstash/logstash.yml
+    dest: etc/logstash/logstash.yml
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart logstash
+  become: true
+  tags: logstash-config
+
 - name: Copy config files
   copy:
     src: etc/logstash/conf.d/
