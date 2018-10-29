@@ -14,7 +14,7 @@
 - name: Copy main config file
   copy:
     src: etc/logstash/logstash.yml
-    dest: etc/logstash/logstash.yml
+    dest: /etc/logstash/logstash.yml
     owner: root
     group: root
     mode: 0644
