@@ -49,6 +49,25 @@ lm_kibana_extra_options:
 # auditbeat related config
 lm_auditbeat_init: false
 
+# filebeat related config
+lm_filebeat_prospectors:
+  - type: log
+    enabled: true
+    paths:
+      - /var/lib/pgsql/*/data/pg_log/*
+    fields:
+      logtype: postgres
+    multiline.pattern: '^(<[[:space:]])?[0-9]{4}-[0-1][0-9]-[0-3][0-9]'
+    multiline.negate: true
+    multiline.match: after
+
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/nginx/access.log
+    fields:
+      logtype: nginx_access
+
 # Hosts definitions: Values will be filled into config files
 # Must be resovlable (IP / Host)
 lm_elastic_hosts:
