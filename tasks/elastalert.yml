@@ -18,14 +18,11 @@
 
 - name: Install elastalert dependencies
   yum:
-    name: "{{ package }}"
+    name:
+      - python-virtualenv
+      - python-pip
+      - gcc
   become: true
-  loop_control:
-    loop_var: package
-  with_items:
-    - python-virtualenv
-    - python-pip
-    - gcc
 
 - name: Install elastalert dependencies into virtualenv
   pip:
