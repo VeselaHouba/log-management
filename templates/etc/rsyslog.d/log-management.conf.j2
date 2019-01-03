@@ -1,3 +1,7 @@
 # {{ ansible_managed }} - {{ role_name }}
 $MaxMessageSize 1024k
+
+$imjournalRatelimitInterval 0
+$imjournalRatelimitBurst 0
+
 user.*  @@{{ lm_logstash_hosts[0] }}:{{ lm_logstash_syslog_port }}
