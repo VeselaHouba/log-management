@@ -21,24 +21,16 @@ shellcheck:
 ansible-lint:
     stage: lint
     script: ci/ansible-lint.sh
-    only:
-        - branches
 
 molecule - test:
     stage: tests
-    script: ci/molecule.sh "molecule test --all"
-    only:
-        - branches
-
-molecule - debug:
-    stage: tests
-    script: ci/molecule.sh "molecule destroy --all; molecule --debug test --destroy never --all"
-    only:
-        - branches
-    when: manual
+    script:
+      - ci/molecule.sh "molecule destroy --all"
+      - ci/molecule.sh "molecule test --scenario-name=default --destroy=never"
+      - ci/molecule.sh "molecule destroy --scenario-name=default"
+      - ci/molecule.sh "molecule test --scenario-name=cluster --destroy=never"
+      - ci/molecule.sh "molecule destroy --scenario-name=cluster"
 
 molecule - cleanup:
     stage: cleanup
     script: ci/molecule.sh "molecule destroy --all"
-    only:
-        - branches
