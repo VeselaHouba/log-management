@@ -12,15 +12,9 @@ lint:
 platforms:
   - name: ansible-roletest-log-management
     vmware_hostname: ansible-roletest-log-management
-    vmware_network_name: DATA-1
-    vmware_datastore: Datastore
-    vmware_datacenter: devel
-    vmware_vcenter_address: 192.168.100.30
     memory: 4096
     cpu: 2
     disk_size: 20
-    os_template: template_centos7_v01
-    esxi_hostname: 192.168.100.20
 
 provisioner:
   name: ansible
