@@ -11,9 +11,9 @@ def test_port_open(host):
     assert sock.is_listening
 
 
-def test_elastalert_running(host):
-    cmd = host.run("systemctl status elastalert")
-    assert cmd.rc == 0
+# def test_elastalert_running(host):
+#     cmd = host.run("systemctl status elastalert")
+#     assert cmd.rc == 0
 
 
 def test_cerebro_running(host):
