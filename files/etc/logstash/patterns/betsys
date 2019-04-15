@@ -6,3 +6,4 @@ SYSLOG_02 %{S_TIMESTAMP:datetime}%{SPACE}%{LOGLEVEL:loglevel}%{SPACE}\|\|%{SPACE
 SYSLOG_03 %{S_TIMESTAMP:datetime}%{SPACE}\[%{DATA:ident}\]%{SPACE}-%{SPACE}%{LOGLEVEL:loglevel}%{SPACE}%{GREEDYDATA:logmessage}
 SYSLOG_04 \[%{S_TIMESTAMP:datetime}\]%{SPACE}%{LOGLEVEL:loglevel}(:)?%{SPACE}%{GREEDYDATA:logmessage}
 SYSLOG %{SYSLOG_01}|%{SYSLOG_02}|%{SYSLOG_03}|%{SYSLOG_04}
+COMMUNICATOR %{S_TIMESTAMP:datetime}|%{TIME:time} %{GREEDYDATA:logmessage}
