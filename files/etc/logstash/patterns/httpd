@@ -13,3 +13,5 @@ HTTPD_ERRORLOG %{HTTPD20_ERRORLOG}|%{HTTPD24_ERRORLOG}
 # Deprecated
 COMMONAPACHELOG %{HTTPD_COMMONLOG}
 COMBINEDAPACHELOG %{HTTPD_COMBINEDLOG}
+
+HTTPD_BS %{IPORHOST:clientip} %{USER:ident} %{USER:auth} \[%{HTTPDATE:datetime}\] \"%{WORD:method} /%{NOTSPACE:request} HTTP/%{NUMBER:httpversion}\" %{NUMBER:response} (?:%{NUMBER:bytes}|-) (?:"(?:%{URI:referrer}|-)"|%{QS:referrer}) %{QS:agent}

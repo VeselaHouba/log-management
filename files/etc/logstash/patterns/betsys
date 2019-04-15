@@ -11,3 +11,4 @@ COMMUNICATOR %{S_TIMESTAMP:datetime}|%{TIME:time} %{GREEDYDATA:logmessage}
 ADMINTOOL_01 \[%{A_TIMESTAMP:datetime}\]%{SPACE}\[%{DATA:thread}\]%{SPACE}\[%{DATA:result}\]%{SPACE}@%{SPACE}%{GREEDYDATA:logmessage}
 ADMINTOOL_02 \[%{A_TIMESTAMP:datetime}\]%{SPACE}%{GREEDYDATA:logmessage}
 ADMINTOOL %{ADMINTOOL_01}|%{ADMINTOOL_02}
+FE %{ADMINTOOL_02}
