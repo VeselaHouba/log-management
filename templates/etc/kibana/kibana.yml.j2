@@ -19,8 +19,11 @@ server.host: "{{ lm_kibana_host }}"
 server.name: "{{ lm_kibana_hostname }}"
 
 # The URL of the Elasticsearch instance to use for all your queries.
+{% if lm_es_major_version >= 7 %}
+elasticsearch.hosts: [{% for host in lm_elastic_hosts %}"http://{{ host }}:{{ lm_kibana_es_port }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+{% else %}
 elasticsearch.url: "http://{{ lm_kibana_es_host }}:{{ lm_kibana_es_port }}"
-
+{% endif %}
 # When this setting's value is true Kibana uses the hostname specified in the server.host
 # setting. When the value of this setting is false, Kibana uses the hostname of the host
 # that connects to this Kibana instance.

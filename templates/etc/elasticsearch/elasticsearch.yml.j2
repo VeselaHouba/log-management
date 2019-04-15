@@ -6,8 +6,15 @@ network.host: {{ lm_es_network_host }}
 {% if lm_es_network_publish_host != "" %}
 network.publish_host: {{ lm_es_network_publish_host }}
 {% endif %}
+
+{% if lm_es_major_version >= 7 %}
+cluster.initial_master_nodes: [{% for host in lm_elastic_hosts %}"{{ host }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+gateway.recover_after_nodes: {{ lm_es_min_cluster_nodes }}
+{% else %}
 discovery.zen.minimum_master_nodes: {{ lm_es_min_cluster_nodes }}
 discovery.zen.ping.unicast.hosts: [{% for host in lm_elastic_hosts %}"{{ host }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+xpack.license.self_generated.type: basic
+{% endif %}
 
 cluster.routing.allocation.disk.threshold_enabled: false
 action.search.shard_count.limit: 1500
@@ -21,10 +28,3 @@ http.cors.allow-headers: X-Requested-With,X-Auth-Token,Content-Type, Content-Len
 
 path.data: {{ lm_es_datadir }}
 path.logs: {{ lm_es_logdir }}
-
-{% if lm_dev_mode %}
-# remove this after testing
-network.bind_host: {{ hostvars[inventory_hostname]['ansible_enp0s8']['ipv4']['address'] }}
-network.publish_host:  {{ hostvars[inventory_hostname]['ansible_enp0s8']['ipv4']['address'] }}
-{% endif %}
-xpack.license.self_generated.type: basic

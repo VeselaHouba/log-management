@@ -1,4 +1,8 @@
+{% if lm_es_major_version < 7 %}
 filebeat.prospectors:
+{% else %}
+filebeat.inputs:
+{% endif %}
 {{ lm_filebeat_prospectors | to_nice_yaml(indent=2) | indent(2, true) }}
 
 setup.template.settings:
