@@ -24,12 +24,7 @@ ansible-lint:
 
 molecule - test:
     stage: tests
-    script:
-        - ci/molecule.sh "molecule destroy --all"
-        - ci/molecule.sh "molecule test --scenario-name=default --destroy=never"
-        - ci/molecule.sh "molecule destroy --scenario-name=default"
-        - ci/molecule.sh "molecule test --scenario-name=cluster --destroy=never"
-        - ci/molecule.sh "molecule destroy --scenario-name=cluster"
+    script: ci/molecule-all.sh
 
 molecule - cleanup:
     stage: cleanup

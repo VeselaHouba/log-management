@@ -30,6 +30,11 @@ lm_number_of_replicas_age: 5
 # logstash will listen on following ports
 lm_logstash_syslog_port: 5044
 lm_logstash_beats_port: 5088
+# Enabling custom index template allows to set
+# default number of shards and replicas for new indexes
+lm_logstash_custom_index_template: false
+lm_logstash_custom_index_shards: 5
+lm_logstash_custom_index_replicas: 1
 
 # enable rsyslog listening on all ifaces
 lm_rsyslog_listen_enable: false

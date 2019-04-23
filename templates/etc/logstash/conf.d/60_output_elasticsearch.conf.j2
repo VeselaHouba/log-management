@@ -7,6 +7,12 @@ output {
   } else {
     elasticsearch {
       hosts => [{% for host in lm_elastic_hosts %}"{{ host }}:{{ lm_es_http_port }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+{% if lm_logstash_custom_index_template %}
+      index => "logstash-%{+YYYY.MM.dd}"
+      template => "/etc/logstash/templates/logstash-bs.json"
+      template_name => "logstash"
+      template_overwrite => "true"
+{% endif %}
     }
   }
 }

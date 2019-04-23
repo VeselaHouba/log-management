@@ -1,0 +1,12 @@
+---
+- name: Destroy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: "{{ not lookup('env', 'MOLECULE_DEBUG') | bool }}"
+  tasks:
+    - name: destroy machine
+      include_tasks: vmware/destroy_machine.yml
+      vars:
+        platform: "{{ item }}"
+      with_items: "{{ molecule_yml.platforms }}"

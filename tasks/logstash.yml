@@ -56,6 +56,24 @@
   become: true
   tags: logstash-config
 
+- name: Create dir for custom templates
+  file:
+    path: /etc/logstash/templates
+    state: directory
+    mode: 0755
+  become: true
+  tags: logstash-config
+  when: lm_logstash_custom_index_template
+
+- name: Copy custom index template
+  template:
+    src: etc/logstash/templates/logstash-bs.json.j2
+    dest: /etc/logstash/templates/logstash-bs.json
+  become: true
+  notify: restart logstash
+  tags: logstash-config
+  when: lm_logstash_custom_index_template
+
 - name: start logstash
   service:
     name: logstash
