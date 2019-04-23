@@ -1,0 +1,65 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+
+  # Do not remove!
+  pre_tasks:
+    - name: load molekunden
+      include_vars: molecule.yml
+
+    - name: Remove ssh_config
+      file:
+        path: /tmp/ssh_config
+        state: absent
+      delegate_to: localhost
+      run_once: true
+
+    - name: Copy ssh_config_base
+      command: cp vmware/ssh_config_base /tmp/ssh_config
+      args:
+        creates: /tmp/ssh_config
+      delegate_to: localhost
+      run_once: true
+
+    - name: Create records in ssh_config
+      include_tasks: vmware/get_machine_info.yml
+      vars:
+        platform: "{{ item }}"
+      with_items: "{{ platforms }}"
+      run_once: true
+
+    - name: Wait for VM to get online
+      wait_for_connection:
+        timeout: 120
+
+    - name: create user ansible
+      user:
+        name: ansible
+
+    - name: Allow ansible to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^ansible'
+        line: 'ansible ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Copy authorized keys from root to ansible
+      command: cp -a /root/.ssh /home/ansible/
+      args:
+        creates: /home/ansible/.ssh
+
+    - name: Make ansible owner of files
+      file:
+        path: /home/ansible/.ssh
+        recurse: true
+        owner: ansible
+        group: ansible
+
+    - name: Disable firewalld
+      systemd:
+        name: firewalld
+        state: stopped
+
+  tasks: []
