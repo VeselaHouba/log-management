@@ -43,7 +43,7 @@ provisioner:
           - rsyslog
           - auditbeat
           - filebeat
-          - elastalert
+          # - elastalert
           - cerebro
         lm_elasticsearch_jvm_opts:
           - { name: Xms, value: Xms1g }
