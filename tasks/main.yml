@@ -13,3 +13,13 @@
   tags:
     - logstash-config
     - elastalert-config
+
+- name: Deploy custom logrotate for system logs
+  template:
+    src: etc/logrotate.d/syslog.j2
+    dest: /etc/logrotate.d/syslog
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  when: lm_manage_logrotate_syslog

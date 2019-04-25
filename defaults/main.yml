@@ -153,3 +153,7 @@ lm_elastalert_mail_from: LogMonitoring@betsys.com
 # cerebro config
 lm_cerebro_url: https://github.com/lmenezes/cerebro/releases/download/v0.8.3/cerebro-0.8.3.tgz
 lm_cerebro_checksum: md5:27e14d4fc33a65ee1f709f0334bda061
+
+# logrotate for system logs
+lm_manage_logrotate_syslog: true
+lm_logrotate_syslog_retention: 30
