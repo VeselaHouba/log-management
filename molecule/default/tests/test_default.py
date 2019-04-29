@@ -26,6 +26,17 @@ def test_cerebro_port_open(host):
     assert sock.is_listening
 
 
+def test_logrotate_syslog(host):
+    logrotate_syslog = host.file('/etc/logrotate.d/syslog')
+
+    assert logrotate_syslog.exists
+    assert logrotate_syslog.is_file
+    assert oct(logrotate_syslog.mode) == '0o644'
+    assert logrotate_syslog.user == 'root'
+    assert logrotate_syslog.group == 'root'
+    assert 'rotate 30' in logrotate_syslog.content_string
+
+
 def test_rsyslog_service(host):
     assert host.service('rsyslog').is_enabled
     assert host.service('rsyslog').is_running

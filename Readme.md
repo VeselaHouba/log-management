@@ -91,6 +91,10 @@ lm_server_roles: []
 * `lm_rsyslog_listen_enable` - Configure rsyslog to listen on defined ports. (default: `false`). Rsyslog will then log incoming messages locally and also forward to logstash. (Useful for direct *app -> syslog* logging instead of *app -> stdout -> docker -> syslog*)
 * `lm_rsyslog_listen_port` - Port for listening rsyslog. Used for both, TCP and UDP. (default: `514`)
 
+### Logrotate for system logs
+This role also deploys custom logrotate config for system logs due to the fact that's where logs from Docker containers end up.
+* `lm_manage_logrotate_syslog` - Deploy custom logrotate config for system logs. (default: `true`)
+* `lm_logrotate_syslog_retention` - How many days worth of log files to keep. (default: `30`)
 
 ### Hosts definitions
 Must be resovlable (IP or Host). Will be filled into config files
