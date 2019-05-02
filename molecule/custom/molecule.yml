@@ -44,9 +44,34 @@ provisioner:
           - kibana
           - rsyslog
           - cerebro
+          - elastalert
         lm_elasticsearch_jvm_opts:
           - { name: Xms, value: Xms1g }
           - { name: Xmx, value: Xmx1g }
+        lm_elastalert_rules:
+          - name: Nginx errors
+            type: frequency
+            index: logstash-*
+            num_events: 50
+            timeframe:
+              minutes: 5
+            buffer_time:
+              minutes: 15
+            filter:
+              - term:
+                  fields.logtype: nginx_access
+              - range:
+                  status:
+                    from: 500
+                    to: 600
+              - query:
+                  query_string:
+                    query: "request: transferuj.php"
+            alert:
+              - email
+            email:
+              - jan.michalek@betsys.com
+            alert_text_type: exclude_fields
 
 scenario:
   name: custom

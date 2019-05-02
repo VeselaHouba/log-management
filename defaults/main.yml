@@ -103,7 +103,7 @@ lm_elasticsearch_jvm_opts:
 # elastalert user/group is expected to exist
 lm_elastalert_user: elasticsearch
 lm_elastalert_group: elasticsearch
-lm_elastalert_version: 0.1.32
+lm_elastalert_version: 0.2.0b2
 lm_elastalert_es_host: localhost
 lm_elastalert_es_port: "{{ lm_es_http_port }}"
 lm_elastalert_es_writeback_index: elastalert_status
