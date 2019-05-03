@@ -24,3 +24,8 @@ def test_cerebro_port_open(host):
 def test_rsyslog_service(host):
     assert host.service('rsyslog').is_enabled
     assert host.service('rsyslog').is_running
+
+
+def test_elastalert_running(host):
+    cmd = host.run("systemctl status elastalert")
+    assert cmd.rc == 0

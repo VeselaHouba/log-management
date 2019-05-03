@@ -31,8 +31,8 @@
     virtualenv: /opt/Yelp/elastalert/
   become: true
   with_items:
-    - { name: urllib3, version: 1.23 }
-    - { name: chardet, version: 3.0.2 }
+    - { name: urllib3, version: 1.24.2 }
+    - { name: chardet, version: 3.0.4 }
   loop_control:
     loop_var: package
 
@@ -46,14 +46,21 @@
 
 - name: Install custom patches
   copy:
-    src: elastalert/
-    dest: /opt/Yelp/elastalert/lib/python2.7/site-packages/elastalert
+    src: "{{ files.src }}"
+    dest: "{{ files.dst }}"
     owner: root
     group: root
     mode: 0644
   notify: restart elastalert
   become: true
   tags: elastalert-config
+  with_items:
+    - src: elastalert/alerts_{{ lm_elastalert_version }}.py
+      dst: /opt/Yelp/elastalert/lib/python2.7/site-packages/elastalert/alerts.py
+    - src: elastalert/elastalert_{{ lm_elastalert_version }}.py
+      dst: /opt/Yelp/elastalert/lib/python2.7/site-packages/elastalert/elastalert.py
+  loop_control:
+    loop_var: files
 
 - name: Create /bin symlink for elastalert
   file:
@@ -84,7 +91,7 @@
   copy:
     content: "{{ rule |to_yaml }}"
     dest: "/etc/elastalert/rules/{{ rule.name | regex_replace(' ','_') }}.yml"
-    validate: /opt/Yelp/elastalert/bin/elastalert-test-rule --schema-only %s
+    # validate: /opt/Yelp/elastalert/bin/elastalert-test-rule --schema-only %s
   with_items: "{{ lm_elastalert_rules }}"
   when: rule.state | default('present') == 'present'
   loop_control:
