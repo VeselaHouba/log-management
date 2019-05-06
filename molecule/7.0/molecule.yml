@@ -1,0 +1,61 @@
+---
+dependency:
+  name: galaxy
+  options:
+    ignore-certs: true
+driver:
+  name: delegated
+  options:
+    managed: true
+lint:
+  name: yamllint
+platforms:
+  - name: ansible-roletest-log-management
+    vmware_hostname: ansible-roletest-log-management
+    memory: 4096
+    cpu: 2
+    disk_size: 20
+    snapshot: true
+
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      pipelining: true
+  connection_options:
+    ansible_ssh_common_args: -F /tmp/ssh_config
+  lint:
+    name: ansible-lint
+  inventory:
+    host_vars:
+      ansible-roletest-log-management:
+        lm_elastic_hosts:
+          - ansible-roletest-log-management
+        parted_action: resize
+        parted_device: /dev/sda
+        parted_number: 2
+        lvm_volumes:
+          - lvname: root
+            vgname: vg01
+            lvmount: /
+            lvsize: "+100%FREE"
+            lvfilesystem: ext4
+        lm_es_major_version: 7
+        # lm_elk_version: 7.0.1
+        lm_server_roles:
+          - logstash
+          - elasticsearch
+          - kibana
+          - cerebro
+          - filebeat
+          - elastalert
+        lm_elasticsearch_jvm_opts:
+          - { name: Xms, value: Xms1g }
+          - { name: Xmx, value: Xmx1g }
+scenario:
+  name: "7.0"
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
+    enabled: true
