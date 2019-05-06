@@ -8,6 +8,7 @@ network.publish_host: {{ lm_es_network_publish_host }}
 {% endif %}
 
 {% if lm_es_major_version >= 7 %}
+discovery.seed_hosts: [{% for host in lm_elastic_hosts %}"{{ host }}"{% if not loop.last %}, {% endif %}{% endfor %}]
 cluster.initial_master_nodes: [{% for host in lm_elastic_hosts %}"{{ host }}"{% if not loop.last %}, {% endif %}{% endfor %}]
 gateway.recover_after_nodes: {{ lm_es_min_cluster_nodes }}
 {% else %}
