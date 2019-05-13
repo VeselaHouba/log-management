@@ -29,8 +29,6 @@ provisioner:
   inventory:
     host_vars:
       ansible-roletest-log-management:
-        lm_elastic_hosts:
-          - ansible-roletest-log-management
         parted_action: resize
         parted_device: /dev/sda
         parted_number: 2

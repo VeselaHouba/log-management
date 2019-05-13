@@ -37,12 +37,8 @@ provisioner:
         lm_elastic_hosts:
           - ansible-roletest-log-management-1
           - ansible-roletest-log-management-2
-        lm_logstash_hosts:
-          - ansible-roletest-log-management-1
-          - ansible-roletest-log-management-2
-        lm_kibana_hosts:
-          - ansible-roletest-log-management-1
-          - ansible-roletest-log-management-2
+        lm_logstash_hosts: "{{ lm_elastic_hosts }}"
+        lm_kibana_hosts: "{{ lm_elastic_hosts }}"
         lm_es_min_cluster_nodes: 2
         lm_filebeat_prospectors:
           - type: log

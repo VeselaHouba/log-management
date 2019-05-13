@@ -76,11 +76,11 @@ lm_filebeat_prospectors:
 # Hosts definitions: Values will be filled into config files
 # Must be resovlable (IP / Host)
 lm_elastic_hosts:
-  - localhost
+  - "{{ ansible_fqdn }}"
 lm_logstash_hosts:
-  - localhost
+  - "{{ ansible_fqdn }}"
 lm_kibana_hosts:
-  - localhost
+  - "{{ ansible_fqdn }}"
 
 # What software from Elastic repo will be installed on host
 lm_server_roles: []
