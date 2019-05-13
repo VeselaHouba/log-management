@@ -1,6 +1,6 @@
 ---
 # shared config of elastic products
-lm_es_major_version: 6
+lm_es_major_version: 7
 # keep undefined for latest from repo
 # lm_elk_version: 6.2.2
 lm_es_repo_url: "https://artifacts.elastic.co/packages/{{ lm_es_major_version }}.x/yum"
