@@ -48,6 +48,11 @@ provisioner:
         lm_elasticsearch_jvm_opts:
           - { name: Xms, value: Xms1g }
           - { name: Xmx, value: Xmx1g }
+        lm_filebeat_prospectors:
+          - type: log
+            enabled: true
+            paths:
+              - /var/log/messages
         lm_elastalert_rules:
           - name: Nginx errors
             type: frequency

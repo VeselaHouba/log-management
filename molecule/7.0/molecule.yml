@@ -41,7 +41,6 @@ provisioner:
             lvsize: "+100%FREE"
             lvfilesystem: ext4
         lm_es_major_version: 7
-        # lm_elk_version: 7.0.1
         lm_server_roles:
           - logstash
           - elasticsearch

@@ -44,7 +44,11 @@ provisioner:
           - ansible-roletest-log-management-1
           - ansible-roletest-log-management-2
         lm_es_min_cluster_nodes: 2
-
+        lm_filebeat_prospectors:
+          - type: log
+            enabled: true
+            paths:
+              - /var/log/messages
         parted_action: resize
         parted_device: /dev/sda
         parted_number: 2
